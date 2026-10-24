@@ -1,0 +1,14 @@
+mutation {
+  webPixelCreate(webPixel: {
+    settings: "{\"accountID\":\"promobile-hub.myshopify.com\"}"
+  }) {
+    userErrors {
+      field
+      message
+    }
+    webPixel {
+      id
+      settings
+    }
+  }
+}

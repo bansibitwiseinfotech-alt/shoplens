@@ -1,0 +1,16 @@
+name = "search-intelligence-pixel"
+type = "web_pixel_extension"
+uid = "7ca7f822-d6be-051e-2da5-dbbab21c0e9246bb3b58"
+
+runtime_context = "strict"
+
+[customer_privacy]
+analytics = true
+marketing = true
+preferences = false
+sale_of_data = "enabled"
+
+[settings]
+type = "object"
+
+[settings.fields]

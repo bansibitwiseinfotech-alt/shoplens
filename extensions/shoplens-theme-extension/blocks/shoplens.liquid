@@ -1,0 +1,55 @@
+{% comment %}
+  ShopLens - All-in-One Search & Merchandising Intelligence
+  ─────────────────────────────────────────────────────────
+  Single ON/OFF embed that handles ALL ShopLens tracking:
+    • Storefront: search, product views, clicks, add-to-cart  (shoplens.js)
+    • Checkout  : purchase / checkout_completed               (Customer Events API)
+    • Collections: collection views, merchandising clicks     (shoplens.js)
+
+  The companion Web Pixel extension provides the Customer Events sandbox
+  for checkout tracking and is activated automatically — no separate
+  merchant action is required.
+{% endcomment %}
+
+<script>
+  window.ShopLens = window.ShopLens || {};
+  window.ShopLens.shop        = {{ shop.permanent_domain | json }};
+  window.ShopLens.currency    = {{ localization.country.currency.iso_code | default: cart.currency.iso_code | json }};
+  window.ShopLens.template    = {{ template.name | json }};
+  window.ShopLens.collection  = {{ collection.handle | json }};
+  window.ShopLens.productId        = {{ product.id | json }};
+  window.ShopLens.pixelUid         = "7ca7f822-d6be-051e-2da5-dbbab21c0e9246bb3b58";
+  window.ShopLens.fallbackEndpoint = "https://organisations-enrolled-responding-expression.trycloudflare.com/api/search-intelligence/events";
+  {% if block.settings.api_url != blank %}
+    window.ShopLens.apiUrl         = {{ block.settings.api_url | json }};
+  {% endif %}
+
+  {% if search.performed %}
+    window.ShopLens.search = {
+      performed: true,
+      query: {{ search.terms | json }},
+      resultsCount: {{ search.results_count | json }}
+    };
+  {% endif %}
+</script>
+
+<script src="{{ 'shoplens.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "ShopLens",
+  "target": "head",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "All-in-One Search & Merchandising Intelligence. Activates all storefront tracking (search, product views, clicks, add-to-cart) AND checkout/purchase tracking in one toggle. No additional configuration needed."
+    },
+    {
+      "type": "text",
+      "id": "api_url",
+      "label": "Custom API Endpoint (Optional)",
+      "info": "Leave blank to use default Shopify App Proxy (/apps/search-intelligence/events) with automatic fallback."
+    }
+  ]
+}
+{% endschema %}
