@@ -96,11 +96,6 @@ webhook subscriptions have been installed for the shop. Configure `BACKEND_URL`
 and `SHOPIFY_API_SECRET` on the app server and backend; both services must use
 the same secret. The backend also requires `MONGODB_URI`.
 
-Run the focused event, persistence, aggregation, and webhook tests with:
-
-```shell
-npm --prefix backend test -- tests/searchIntelligence.test.js
-```
 
 ## Shopify Dev MCP
 
